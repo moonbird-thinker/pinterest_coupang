@@ -37,8 +37,6 @@ headers = {'Accept-Language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7,zh-TW;q=0.6,z
 res = requests.get(url=target_url, headers=headers)
 soup = BeautifulSoup(res.text, "html.parser")
 
-# print(soup)
-
 all_search_product_lists = soup.select('li.search-product')  # 검색 상품 모두
 ad_search_product_lists = soup.select('li.search-product.search-product__ad-badge')  # 광고 상품만
 
@@ -56,19 +54,29 @@ if len(rank_product_lists) < 10:
 else:
     print('\n검색된 상품 수량 : ', len(rank_product_lists))
 
+# # Top 10개만 리스트에 담기 (사용되는 리스트 설명)
+# product_name_lists = []  # 상품명
+# product_discount_rate_lists = []  # 할인률과 원래가격
+# product_price_lists = []  # 상품가격
+# product_arrival_time_lists = []  # 도착예정시간
+# product_rating_star_lists = []  # star 평가: ex.3.5
+# product_review_lists = []  # 상품리뷰 수
+# product_link_lists = []  # 상품 구매 링크
+# product_image_lists = []  # 상품 이미지
 
 for inner in rank_product_lists[:10]:
     product_name = inner.select_one('div > div.name')  # 상품명
     if product_name is not None:
+        # print(product_name.text)
         product_name_lists.append(product_name.text)
     else:
         product_name_lists.append('No data')
-    
     product_discount_rate = inner.select_one('div.price-wrap > div.price > span.price-info')  # 할인률과 원래가격
     if product_discount_rate is not None:
+        # print(product_discount_rate.text.lstrip())
         product_discount_rate_lists.append(f'{product_discount_rate.text.lstrip()}원')
     else:
-        product_arrival_time_lists.append('No data')
+        product_discount_rate_lists.append('No data')
     product_price = inner.select_one('div.price-wrap > div.price > em > strong')  # 상품가격
     if product_price is not None:
         # print(product_price.text.replace(",", ""))
@@ -137,4 +145,3 @@ for product_name, product_discount_rate, product_price, product_arrival_time, pr
     print(
         f'{count}. {product_name} | {product_discount_rate} | {product_price} | {product_arrival_time} | {product_rating_star} | {product_review} | \n{product_link} | \n{product_image}\n')
     count = count + 1
-        
