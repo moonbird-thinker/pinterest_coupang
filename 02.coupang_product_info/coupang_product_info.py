@@ -129,12 +129,6 @@ for inner in rank_product_lists[:10]:
             p_image = f'https:{p_image}'
         # print(p_image)
         product_image_lists.append(p_image)
-    product_link = inner.select_one('a.search-product-link')  # 상품 구매 링크
-    try:
-        p_link = "https://www.coupang.com" + product_link['data-product-link']
-    except:
-        p_link = "https://www.coupang.com" + product_link['href']
-    product_link_lists.append(p_link)
 
 # 출력
 count = 1
