@@ -68,7 +68,7 @@ for inner in rank_product_lists[:10]:
     product_name = inner.select_one('div > div.name')  # 상품명
     if product_name is not None:
         # print(product_name.text)
-        product_name_lists.append(product_name.text)
+        product_name_lists.append(product_name.text.strip())
     else:
         product_name_lists.append('No data')
     product_discount_rate = inner.select_one('div.price-wrap > div.price > span.price-info')  # 할인률과 원래가격
